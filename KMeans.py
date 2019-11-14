@@ -16,22 +16,25 @@ def kMeans(dataset,  k):
     centroidDataframe = pd.DataFrame([], columns = ['xCordinate', 'yCordinate'])
     centroidsList = []
 
-    
-    
     #placing centroids at random locations
     for y in range(k):
         cXc = randint(dataset['xCordinate'].min(), dataset['xCordinate'].max()) #centroid X coordinate
-        cYc = randint(dataset['yCordinate'].min(), dataset['yCordinate'].max()) #centroid X coordinate
-        centroidDataframe = centroidDataframe.append(pd.DataFrame([[cXc, cYc]], columns=['xCordinate', 'yCordinate']))
+        cYc = randint(dataset['yCordinate'].min(), dataset['yCordinate'].max()) #centroid Y coordinate
+        centroidDataframe = centroidDataframe.append(pd.DataFrame([[cXc, cYc]], columns=['xCordinate', 'yCordinate']), ignore_index=True)
         centroidsList.append(pd.DataFrame([], columns=['xCordinate', 'yCordinate']))
-    #print("centroidDataframe => {}".format(centroidDataframe))
-    #print("centroidsList => {}".format(centroidsList))
 
     #finding the nearest centroid for each point in dataset
-    for y in range(dataset.size):
-        ctrl = dataset.iloc[y]
-        print(ctrl)
-        #for x in range(k):
+    for y in range(len(dataset)):
+        point = dataset.iloc[y]
+        distanceDf = pd.DataFrame([], columns=['distance'])
+        #calculating the distance between one point and the centroids
+        for x in range(k):
+            centroid = centroidDataframe.iloc[x]
+            dist = la.norm(point-centroid)
+            distanceDf = distanceDf.append(pd.DataFrame([[dist]], columns=['distance']), ignore_index=True)
+            #print("distance between point {} and centroid {} is {}\n".format(point, centroid, dist))
+        print(distanceDf.idxmin())
+        
             
 
 
