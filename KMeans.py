@@ -4,10 +4,6 @@ import numpy
 from random import randint
 import pandas as pd
 
-'''
-DA UM GIT PULL AE
-'''
-
 def preProcessingData(data):
     for x in range(len(data)):
         data[x] = data[x].split(' ')
@@ -18,16 +14,26 @@ def preProcessingData(data):
 
 def kMeans(dataset,  k):
     centroidDataframe = pd.DataFrame([], columns = ['xCordinate', 'yCordinate'])
+    centroidsList = []
 
+    
     
     #placing centroids at random locations
     for y in range(k):
         cXc = randint(dataset['xCordinate'].min(), dataset['xCordinate'].max()) #centroid X coordinate
         cYc = randint(dataset['yCordinate'].min(), dataset['yCordinate'].max()) #centroid X coordinate
         centroidDataframe = centroidDataframe.append(pd.DataFrame([[cXc, cYc]], columns=['xCordinate', 'yCordinate']))
-    print("centroidDataframe => {}".format(centroidDataframe))
+        centroidsList.append(pd.DataFrame([], columns=['xCordinate', 'yCordinate']))
+    #print("centroidDataframe => {}".format(centroidDataframe))
+    #print("centroidsList => {}".format(centroidsList))
 
     #finding the nearest centroid for each point in dataset
+    for y in range(dataset.size):
+        ctrl = dataset.iloc[y]
+        print(ctrl)
+        #for x in range(k):
+            
+
 
 
 
@@ -43,8 +49,7 @@ def kMeans(dataset,  k):
     plt.show()
 '''
 
-data = open("...", 'r')
+data = open("C:/Users/YuriPc/Desktop/Python Projects/KMeans/data.txt", 'r')
 data = data.readlines()
 data = preProcessingData(data)
-print(data)
 kMeans(data, 2)
