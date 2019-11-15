@@ -33,7 +33,9 @@ def kMeans(dataset,  k):
             dist = la.norm(point-centroid)
             distanceDf = distanceDf.append(pd.DataFrame([[dist]], columns=['distance']), ignore_index=True)
             #print("distance between point {} and centroid {} is {}\n".format(point, centroid, dist))
-        print(distanceDf.idxmin())
+        indexmin = distanceDf.idxmin() #getting the index of the min distance
+        centroidsList[indexmin].append(pd.DataFrame([point], columns=['xCordinate', 'yCordinate']), ignore_index=True)
+            
         
             
 
