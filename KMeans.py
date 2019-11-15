@@ -27,15 +27,22 @@ def kMeans(dataset,  k):
     for y in range(len(dataset)):
         point = dataset.iloc[y]
         distanceDf = pd.DataFrame([], columns=['distance'])
+    
         #calculating the distance between one point and the centroids
         for x in range(k):
             centroid = centroidDataframe.iloc[x]
             dist = la.norm(point-centroid)
             distanceDf = distanceDf.append(pd.DataFrame([[dist]], columns=['distance']), ignore_index=True)
-            #print("distance between point {} and centroid {} is {}\n".format(point, centroid, dist))
-        indexmin = distanceDf.idxmin() #getting the index of the min distance
-        centroidsList[indexmin].append(pd.DataFrame([point], columns=['xCordinate', 'yCordinate']), ignore_index=True)
-            
+    
+        indexmin = distanceDf.idxmin()[0] #getting the index of the min distance
+        centroidsList[indexmin] = centroidsList[indexmin].append([point], ignore_index=True) #assigning the ...
+        #point to the cluster
+
+    #updating centroids
+
+
+
+    print(centroidsList)   
         
             
 
@@ -45,16 +52,10 @@ def kMeans(dataset,  k):
 '''
     plt.scatter(centroidXcoordinate, centroidYcoordinate, color=['blue'])
     plt.scatter(setXpoints, setYpoints, color=['red'])
-
-    for x in range(len(pontosX)):
-        for y in range(k):
-
-
-
     plt.show()
 '''
 
-data = open("C:/Users/YuriPc/Desktop/Python Projects/KMeans/data.txt", 'r')
+data = open("./KMeans/data.txt", 'r')
 data = data.readlines()
 data = preProcessingData(data)
 kMeans(data, 2)
