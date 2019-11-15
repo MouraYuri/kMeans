@@ -14,35 +14,44 @@ def preProcessingData(data):
 
 def kMeans(dataset,  k):
     centroidDataframe = pd.DataFrame([], columns = ['xCordinate', 'yCordinate'])
-    centroidsList = []
+    clusters = []
 
     #placing centroids at random locations
     for y in range(k):
         cXc = randint(dataset['xCordinate'].min(), dataset['xCordinate'].max()) #centroid X coordinate
         cYc = randint(dataset['yCordinate'].min(), dataset['yCordinate'].max()) #centroid Y coordinate
         centroidDataframe = centroidDataframe.append(pd.DataFrame([[cXc, cYc]], columns=['xCordinate', 'yCordinate']), ignore_index=True)
-        centroidsList.append(pd.DataFrame([], columns=['xCordinate', 'yCordinate']))
+        clusters.append(pd.DataFrame([], columns=['xCordinate', 'yCordinate']))
 
-    #finding the nearest centroid for each point in dataset
-    for y in range(len(dataset)):
-        point = dataset.iloc[y]
-        distanceDf = pd.DataFrame([], columns=['distance'])
-    
-        #calculating the distance between one point and the centroids
+    while True:
+
+        #finding the nearest centroid for each point in dataset
+        for y in range(len(dataset)):
+            point = dataset.iloc[y]
+            distanceDf = pd.DataFrame([], columns=['distance'])
+        
+            #calculating the distance between one point and the centroids
+            for x in range(k):
+                centroid = centroidDataframe.iloc[x]
+                dist = la.norm(point-centroid)
+                distanceDf = distanceDf.append(pd.DataFrame([[dist]], columns=['distance']), ignore_index=True)
+        
+            #getting the index of the min distance
+            indexmin = distanceDf.idxmin()[0]
+            
+            #assigning the point to the cluster
+            clusters[indexmin] = clusters[indexmin].append([point], ignore_index=True) 
+            
+            
+        #updating centroids
         for x in range(k):
-            centroid = centroidDataframe.iloc[x]
-            dist = la.norm(point-centroid)
-            distanceDf = distanceDf.append(pd.DataFrame([[dist]], columns=['distance']), ignore_index=True)
-    
-        indexmin = distanceDf.idxmin()[0] #getting the index of the min distance
-        centroidsList[indexmin] = centroidsList[indexmin].append([point], ignore_index=True) #assigning the ...
-        #point to the cluster
-
-    #updating centroids
+            axisSum = clusters[x].sum(axis=0)
+            
+            print(axisSum)
+        break
 
 
-
-    print(centroidsList)   
+   
         
             
 
