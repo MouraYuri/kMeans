@@ -14,14 +14,17 @@ def preProcessingData(data):
 
 def kMeans(dataset,  k):
     centroidDataframe = pd.DataFrame([], columns = ['xCordinate', 'yCordinate'])
-    clusters = []
+    clusters, previousClusters = [], []
 
     #placing centroids at random locations
     for y in range(k):
         cXc = randint(dataset['xCordinate'].min(), dataset['xCordinate'].max()) #centroid X coordinate
         cYc = randint(dataset['yCordinate'].min(), dataset['yCordinate'].max()) #centroid Y coordinate
         centroidDataframe = centroidDataframe.append(pd.DataFrame([[cXc, cYc]], columns=['xCordinate', 'yCordinate']), ignore_index=True)
+        
+        #filling the clusters and previousClusters list with empty dataframes
         clusters.append(pd.DataFrame([], columns=['xCordinate', 'yCordinate']))
+        previousClusters.append(pd.DataFrame([], columns=['xCordinate', 'yCordinate']))
 
     while True:
 
@@ -41,28 +44,32 @@ def kMeans(dataset,  k):
             
             #assigning the point to the cluster
             clusters[indexmin] = clusters[indexmin].append([point], ignore_index=True) 
- 
+
+        #comparing previous dataframe with the current one
+        counter = 0
+        for x in range(k):
+            if (clusters[x].equals(previousClusters[x])):
+                counter = counter + 1
+        if (counter==k):
+            break 
+
         #updating centroids
         for x in range(k):
             axisSum = clusters[x].sum(axis=0)
             xMean, yMean = axisSum[0]/float(len(clusters[x])), axisSum[1]/float(len(clusters[x]))
             centroidDataframe.at[x, 'xCordinate'], centroidDataframe.at[x, 'yCordinate'] = xMean, yMean
-        print(centroidDataframe)
-        break
+
+        #saving the clusters in a new list and cleaning the current clusters list
+        previousClusters = []
+        for x in range(k):
+            previousClusters.append(clusters[x].copy(deep=True))
+            clusters[x] = pd.DataFrame([], columns=['xCordinate', 'yCordinate'])
 
 
-   
-        
-            
-
-
-
-
-'''
-    plt.scatter(centroidXcoordinate, centroidYcoordinate, color=['blue'])
-    plt.scatter(setXpoints, setYpoints, color=['red'])
+    for cluster in clusters:
+        plt.scatter(cluster['xCordinate'], cluster['yCordinate'], color=['blue'])
+    plt.scatter(centroidDataframe['xCordinate'],centroidDataframe['yCordinate'], color=['red'] )
     plt.show()
-'''
 
 data = open("./KMeans/data.txt", 'r')
 data = data.readlines()
