@@ -41,13 +41,13 @@ def kMeans(dataset,  k):
             
             #assigning the point to the cluster
             clusters[indexmin] = clusters[indexmin].append([point], ignore_index=True) 
-            
-            
+ 
         #updating centroids
         for x in range(k):
             axisSum = clusters[x].sum(axis=0)
-            
-            print(axisSum)
+            xMean, yMean = axisSum[0]/float(len(clusters[x])), axisSum[1]/float(len(clusters[x]))
+            centroidDataframe.at[x, 'xCordinate'], centroidDataframe.at[x, 'yCordinate'] = xMean, yMean
+        print(centroidDataframe)
         break
 
 
