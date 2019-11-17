@@ -11,9 +11,17 @@ Non supervised learning clustering algorithm.
 
 ## Using the dataset in this repository and k = 3:
 
+#### Centroids colored with red
+
 ### Centroids at random locations:
 ![](https://raw.githubusercontent.com/MouraYuri/kMeans/master/centroidsrandomlyplaced.png)
 
 
 ### Centroids after the algorithm ends:
 ![](https://raw.githubusercontent.com/MouraYuri/kMeans/master/centroidswheretheyneedtobe.png)
+
+
+## Dependecies:
+-Pandas  
+-Matplotlib  
+-Numpy  
