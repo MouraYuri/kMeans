@@ -56,7 +56,8 @@ def kMeans(dataset,  k):
         #updating centroids
         for x in range(k):
             axisSum = clusters[x].sum(axis=0)
-            xMean, yMean = axisSum[0]/float(len(clusters[x])), axisSum[1]/float(len(clusters[x]))
+            #xMean, yMean = axisSum[0]/float(len(clusters[x])), axisSum[1]/float(len(clusters[x]))
+            xMean, yMean = axisSum[0]/len(clusters[x]), axisSum[1]/len(clusters[x])
             centroidDataframe.at[x, 'xCordinate'], centroidDataframe.at[x, 'yCordinate'] = xMean, yMean
 
         #saving the clusters in a new list and cleaning the current clusters list
@@ -65,13 +66,13 @@ def kMeans(dataset,  k):
             previousClusters.append(clusters[x].copy(deep=True))
             clusters[x] = pd.DataFrame([], columns=['xCordinate', 'yCordinate'])
 
-
     for cluster in clusters:
         plt.scatter(cluster['xCordinate'], cluster['yCordinate'], color=['blue'])
     plt.scatter(centroidDataframe['xCordinate'],centroidDataframe['yCordinate'], color=['red'] )
     plt.show()
 
+
 data = open("./KMeans/data.txt", 'r')
 data = data.readlines()
 data = preProcessingData(data)
-kMeans(data, 2)
+kMeans(data, 3)
