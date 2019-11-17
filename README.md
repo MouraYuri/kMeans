@@ -9,7 +9,11 @@ Non supervised learning clustering algorithm.
 -After that, for each cluster j=1,...,k we update the centroid cj:  
 --new centroid cj = mean of all points xi assigned to cluster j in previous step  
 
-## Centroids at random locations:
+## Using the dataset in this repository and k = 3:
+
+### Centroids at random locations:
+![](https://raw.githubusercontent.com/MouraYuri/kMeans/master/centroidsrandomlyplaced.png)
 
 
-
+### Centroids after the algorithm ends:
+![](https://raw.githubusercontent.com/MouraYuri/kMeans/master/centroidswheretheyneedtobe.png)
